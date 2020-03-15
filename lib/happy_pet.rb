@@ -1,6 +1,9 @@
 require "happy_pet/version"
+require_relative "./happy_pet/version.rb"
+require_relative "./happy_pet/scraper.rb"
+require_relative "./happy_pet/cli.rb"
 
-module HappyPet
-  class Error < StandardError; end
-  # Your code goes here...
-end
+
+require 'open-uri'
+require 'nokogiri'
+require 'pry'
