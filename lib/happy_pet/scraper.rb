@@ -17,12 +17,17 @@ class Scraper
     url = 'https://www.bringfido.com/lodging/'
     html = open(url)
     doc = Nokogiri::HTML(html)
+    puts doc.css('div.column-set')
+    hotel = doc.css('#results-list.entity-snapshot.entity-wrapper.info h2 a')
+    hotel.each do |hotel|
+      puts hotel.text.strip
+    end
+    hotel
+   # price = doc.css('div.price.amount')
+    #location = doc.css('div.subtitle')
     
-    hotel = doc.css('div#results-list.info')
-    price = doc.css('div.amount')
-    location = doc.css('div.subtitle')
     
-    binding.pry
+   # binding.pry
   end
   
 end
