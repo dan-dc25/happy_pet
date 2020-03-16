@@ -18,13 +18,22 @@ class CLI
     puts " "
     puts "Please enter the state you are traveling to."
     state = nil
-    state = gets.chomp
-    puts state
+    state = gets.chomp.upcase
   end
   
   def show_hotels
     puts "Here's a list of hotels in #{state}"
-    puts @hotels
+    puts @@all
+    puts "Would you like to see a list of the top 5 hotels in #{state}?"
+    puts " "
+    puts "Enter y/n"
+    input = gets.chomp.upcase
+    if input == y
+      puts @@all[0..4]
+    else  
+      puts @@all[0]
+    
+      
   end
   
   
