@@ -6,6 +6,8 @@ class Scraper
   
  attr_accessor :name, :location, :price
  
+ @@all = []
+ 
  def initialize
    @name = name
    @location = location
@@ -21,6 +23,7 @@ class Scraper
     hotel = doc.css('#results-list.entity-snapshot.entity-wrapper.info h2 a')
     hotel.each do |hotel|
       puts hotel.text.strip
+      @@all << hotel
     end
     hotel
    # price = doc.css('div.price.amount')

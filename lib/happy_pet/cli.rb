@@ -11,12 +11,12 @@ class CLI
     
   def welcome
     puts ""
-    puts "Welcome to Happy Pet! We will show you a list of pup friendly hotels. "
+    puts "Welcome to Happy Pet! We will show you a list of pup friendly hotels."
   end
   
    def destination
     puts " "
-    puts "Please select the state you are traveling to."
+    puts "Please enter the state you are traveling to."
     state = nil
     state = gets.chomp
     puts state
