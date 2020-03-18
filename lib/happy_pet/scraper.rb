@@ -16,19 +16,20 @@ class Scraper
   
   def get_page
     
-    url = 'https://www.bringfido.com/lodging/'
+    url = "https://www.gopetfriendly.com/Hotels/new-york/new-york/1.aspx"    
     html = open(url)
     doc = Nokogiri::HTML(html)
-    hotel = doc.css('#results-list.entity-snapshot.entity-wrapper.info h2 a')
-    hotel.each do |hotel|
-      puts hotel.text.strip
-      @@all << hotel
-    end
-   # price = doc.css('div.price.amount')
+    hotel = doc.css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_LocationDiv_0.result.clearfix.hotel-result.featured").css("a")[0].text
+    @@all << hotel
+    #hotel.each do |hotel|
+     # puts hotel.text.strip
+    #end
+    price = doc.css("#text.price")
+    binding.pry
     #location = doc.css('div.subtitle')
     
     
-   # binding.pry
+   
   end
   
 end

@@ -19,6 +19,7 @@ class CLI
     puts "Please enter the state you are traveling to."
     state = nil
     state = gets.chomp.upcase
+    Scraper.get_page(state)
   end
   
   def show_hotels
