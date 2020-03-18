@@ -24,9 +24,10 @@ class Scraper
     #hotel.each do |hotel|
      # puts hotel.text.strip
     #end
-    price = doc.css("#text.price")
+    #price = doc.css(".price")[0].text.gsub("As Low As", "").split
+    #location = doc.css(".text").css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_up1_0")[0].text.gsub("").split()
+    #loc = doc.css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_up1_0").css("p")[0].text.gsub("").split()
     binding.pry
-    #location = doc.css('div.subtitle')
     
     
    
