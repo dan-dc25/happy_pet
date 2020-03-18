@@ -22,18 +22,19 @@ class Scraper
     hotel = doc.css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_LocationDiv_0.result.clearfix.hotel-result.featured").css("a")[0].text
     @@all << hotel
     #hotel.each do |hotel|
-     # puts hotel.text.strip
+    #puts hotel.text.strip
     #end
-    #price = doc.css(".price")[0].text.gsub("As Low As", "").split
-    #location = doc.css(".text").css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_up1_0")[0].text.gsub("").split()
-    #loc = doc.css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_up1_0").css("p")[0].text.gsub("").split()
+    price = doc.css(".price")[0].text.gsub("As Low As", "").split
+    info = doc.css("div#ContentPlaceHolder1_SearchResults_LocationsRepeater_up1_0").css("p")[0].text
     binding.pry
-    
-    
-   
+  end
+  
+  def self.hotel()
+    hotel.each do |hotel|
+      puts hotel.text.strip
+    end
   end
   
 end
-
 
 Scraper.new.get_page

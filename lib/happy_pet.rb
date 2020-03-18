@@ -1,4 +1,4 @@
-require "happy_pet/version"
+require "./lib/happy_pet/version"
 require_relative "./happy_pet/version.rb"
 require_relative "./happy_pet/scraper.rb"
 require_relative "./happy_pet/cli.rb"

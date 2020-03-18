@@ -1,5 +1,5 @@
 require 'pry'
-requirer './lib/happy_pet'
+require './lib/happy_pet'
 
 class CLI
   
@@ -17,13 +17,14 @@ class CLI
    def destination
     puts " "
     puts "Please enter the state you are traveling to."
-    state = nil
-    state = gets.chomp.upcase
-    Scraper.get_page(state)
+    @state = nil
+    @state = gets.chomp.upcase
+    puts "Showing you hotels in #{@state}..."
+    Scraper.get_page(@state)
   end
   
   def show_hotels
-    puts "Here's a list of hotels in #{state}"
+    puts "Here's a list of hotels in #{@state}"
     puts @@all
     puts "Would you like to see a list of the top 5 hotels in #{state}?"
     puts " "
@@ -33,7 +34,7 @@ class CLI
       puts @@all[0..4]
     else  
       puts @@all[0]
-    
+    end
       
   end
   
