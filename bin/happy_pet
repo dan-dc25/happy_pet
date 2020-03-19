@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require './lib/happy_pet'
+require './lib/environment'
 
 
 
-CLI.new.call
+HappyPet::CLI.new.call

@@ -1,12 +1,12 @@
 require 'pry'
-require './lib/happy_pet'
+require './lib/environment'
 
-class CLI
+
+class HappyPet::CLI
   
     def call
     welcome
     destination
-    show_hotels
   end
     
   def welcome
@@ -16,27 +16,14 @@ class CLI
   
    def destination
     puts " "
-    puts "Please enter the state you are traveling to."
-    @state = nil
-    @state = gets.chomp.upcase
-    puts "Showing you hotels in #{@state}..."
-    Scraper.get_page(@state)
+    puts "Please enter the city you are traveling to."
+    city = nil
+    city = gets.chomp.upcase
+    puts "Showing you hotels in #{city}..."
+    HappyPet::Scraper.get_page(city)
   end
   
-  def show_hotels
-    puts "Here's a list of hotels in #{@state}"
-    puts @@all
-    puts "Would you like to see a list of the top 5 hotels in #{state}?"
-    puts " "
-    puts "Enter y/n"
-    input = gets.chomp.upcase
-    if input == y
-      puts @@all[0..4]
-    else  
-      puts @@all[0]
-    end
-      
-  end
+
   
   
 end
