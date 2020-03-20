@@ -7,6 +7,7 @@ class HappyPet::CLI
     def call
     welcome
     destination
+    
   end
     
   def welcome
@@ -18,7 +19,7 @@ class HappyPet::CLI
     puts " "
     puts "Please enter the city you are traveling to."
     city = nil
-    city = gets.chomp.upcase
+    city = gets.chomp.downcase
     puts "Showing you hotels in #{city}..."
     HappyPet::Scraper.get_page(city)
   end
