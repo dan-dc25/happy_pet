@@ -24,18 +24,26 @@ class HappyPet::CLI
     else 
       puts "Please enter 1 for Hotels or 2 for Restaurants."
     end
+  
   end
     
     
   def hotels
     puts "Please enter the city you are traveling to."
     city = nil
-    city = gets.chomp.downcase
+    city = gets.chomp.downcase.split.join("-")
     puts "Please, enter the state"
     state = nil
-    state = gets.chomp.downcase
+    state = gets.chomp.downcase.split.join("-")
     puts "Showing you hotels in #{city}, #{state}..."
-    HappyPet::Scraper.get_page(state, city)
+    Scraper.get_page(state, city)
+    display_info
+  end
+  
+  def display_info
+    Hotel.all.each_with_index do |hotels, index|
+  binding.pry
+  end
   end
   
   def restaurants

@@ -1,42 +1,26 @@
-require 'pry'
-require 'nokogiri'
-require 'open-uri'
-
-class HappyPet::Scraper
-  
- attr_accessor :name, :location, :price
- 
- def initialize
-    @name = name
-    @location = location
-    @price = price
-  end 
+class Scraper
   
   def self.get_page(state, city)
     url = "https://www.gopetfriendly.com/Hotels/#{state}/#{city}/1.aspx"    
     html = open(url)
     doc = Nokogiri::HTML(html)
     
-   @@all = {:name => doc.css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_LocationDiv_0.result.clearfix.hotel-result").css("a")[0].text,
-    :price => doc.css(".price")[0].text.gsub("As Low As", "").split,
-    :location => doc.css("div#ContentPlaceHolder1_SearchResults_LocationsRepeater_up1_0").css("p")[0].text
-    }
-    #counter = 0
-    #@@all.each do |key, value|
-     # puts "#{key}: #{value}"
-    #  counter += 1
-    #end
+    doc.css(".result.clearfix.hotel-result").each_with_index do |hotel, index|
+     name = hotel.css("a").text
+     info = hotel.css("p")[0].text
+     price = doc.css(".price")[index].text.gsub("As Low As", "").split
+     Hotel.new(name, info, price)
+    end
   end
   
   def self.get_restaurant(state, city)
     url = "https://www.gopetfriendly.com/Restaurants/#{state}/#{city}/1.aspx"
     html = open(url)
     doc = Nokogiri::HTML(html)
-    @@restaurants = {:name => doc.css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_LocationDiv_0.result.clearfix.restaurant-result").css("a")[0].text,
+    restaurants = {:name => doc.css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_LocationDiv_0.result.clearfix.restaurant-result").css("a")[0].text,
     :address => doc.css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_up1_0").css("p")[0].text
     }
-    @@restaurants
-    #binding.pry
+    binding.pry
   end
   
   def show_hotels
@@ -61,6 +45,4 @@ class HappyPet::Scraper
   end
   
 end
-
-
 
