@@ -37,24 +37,31 @@ class HappyPet::CLI
     state = gets.chomp.downcase.split.join("-")
     puts "Showing you hotels in #{city}, #{state}..."
     Scraper.get_page(state, city)
-    display_info
+    display_hotels
   end
   
-  def display_info
-    Hotel.all.each_with_index do |hotels, index|
-  binding.pry
+  def display_hotels
+    Hotel.all.each_with_index do |hotel, index|
+      puts "#{index}- #{hotel}."
   end
   end
   
   def restaurants
      puts "Please enter the city you are traveling to."
     city = nil
-    city = gets.chomp.downcase
+    city = gets.chomp.downcase.split.join("-")
     puts "Please, enter the state"
     state = nil
-    state = gets.chomp.downcase
-    puts "Showing you restaurants in #{city}, #{state}..."
-    HappyPet::Scraper.get_restaurant(state, city)
+    state = gets.chomp.downcase.split.join("-")
+    puts "Showing you hotels in #{city}, #{state}..."
+    Scraper.get_restaurant(state, city)
+    display_restaurants
+  end
+  
+  def display_restaurants
+    Restaurant.all.each_with_index do |restaurant, index|
+      puts "#{index}- #{restaurant}"
+    end
   end
   
 

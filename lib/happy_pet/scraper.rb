@@ -1,3 +1,7 @@
+require 'pry'
+require 'nokogiri'
+require 'open-uri'
+
 class Scraper
   
   def self.get_page(state, city)
@@ -17,31 +21,11 @@ class Scraper
     url = "https://www.gopetfriendly.com/Restaurants/#{state}/#{city}/1.aspx"
     html = open(url)
     doc = Nokogiri::HTML(html)
-    restaurants = {:name => doc.css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_LocationDiv_0.result.clearfix.restaurant-result").css("a")[0].text,
-    :address => doc.css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_up1_0").css("p")[0].text
-    }
-    binding.pry
-  end
-  
-  def show_hotels
-    puts "Here's a list of hotels in "
-    hotels = @@all
-    hotels.each do |key, value|
-      puts "#{key}, #{value}"
+    doc.css(".result.clearfix.restaurant-result").each do |restaurant|
+      name = restaurant.css("a").text
+      info = restaurant.css("p")[0].text
+      Restaurant.new(name, info)
     end
-    binding.pry
-  
-    #puts name
-    #puts "Would you like to see a list of the top 5 hotels in #{city}?"
-    #puts " "
-    #puts "Enter y/n"
-    #input = gets.chomp.upcase
-    #if input == y
-    #  puts name[0..4]
-    #else  
-    #  puts "Here is the number 1 on the list :"
-    #  name[0]
-    #end
   end
   
 end
