@@ -6,16 +6,14 @@ class HappyPet::Scraper
   
  attr_accessor :name, :location, :price
  
- @@all = []
- 
  def initialize
     @name = name
     @location = location
     @price = price
   end 
   
-  def self.get_page(city)
-    url = "https://www.gopetfriendly.com/Hotels/pennsylvania/#{city}/1.aspx"    
+  def self.get_page(state, city)
+    url = "https://www.gopetfriendly.com/Hotels/#{state}/#{city}/1.aspx"    
     html = open(url)
     doc = Nokogiri::HTML(html)
     
@@ -23,8 +21,22 @@ class HappyPet::Scraper
     :price => doc.css(".price")[0].text.gsub("As Low As", "").split,
     :location => doc.css("div#ContentPlaceHolder1_SearchResults_LocationsRepeater_up1_0").css("p")[0].text
     }
-    @@all
-    
+    #counter = 0
+    #@@all.each do |key, value|
+     # puts "#{key}: #{value}"
+    #  counter += 1
+    #end
+  end
+  
+  def self.get_restaurant(state, city)
+    url = "https://www.gopetfriendly.com/Restaurants/#{state}/#{city}/1.aspx"
+    html = open(url)
+    doc = Nokogiri::HTML(html)
+    @@restaurants = {:name => doc.css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_LocationDiv_0.result.clearfix.restaurant-result").css("a")[0].text,
+    :address => doc.css("#ContentPlaceHolder1_SearchResults_LocationsRepeater_up1_0").css("p")[0].text
+    }
+    @@restaurants
+    #binding.pry
   end
   
   def show_hotels
@@ -49,5 +61,6 @@ class HappyPet::Scraper
   end
   
 end
+
 
 
