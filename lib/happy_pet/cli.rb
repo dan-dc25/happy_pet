@@ -9,6 +9,9 @@ class HappyPet::CLI
     puts "Welcome to Happy Pet! We will show you a list of pup friendly destinations."
     puts ""
     make_a_selection
+    puts "Would you like more information in any of the hotels? Y/N"
+    puts more_info
+    exit
   end
     
   def make_a_selection
@@ -18,7 +21,7 @@ class HappyPet::CLI
     input = nil
     input = gets.chomp
     if input == "1"
-     puts hotels
+       hotels
     elsif input == "2" 
       puts restaurants
     else 
@@ -41,9 +44,8 @@ class HappyPet::CLI
   end
   
   def display_hotels
-    Hotel.all[0..10].each_with_index do |hotel, index|
-      binding.pry
-      puts "#{index+1}- #{hotel.name}."
+    Hotel.all.each_with_index do |hotel, index|
+      puts "#{index +1} - #{hotel.name}."
     end
   end
   
@@ -65,6 +67,26 @@ class HappyPet::CLI
     end
   end
   
+  def more_info
+    input = nil
+    input = gets.chomp.downcase
+      Hotel.all.each_with_index do |hotel, index|
+        if input == y
+          puts "#{index +1} - #{hotel.price}."
+          puts "#{info}."
+        elsif input == n
+          puts "Type exit to leave the program."
+        end
+      end
+      exit
+    end
+    
+    def exit
+      puts "We hate to see you go."
+      puts "But we hope you had a great time"
+      puts "And we hope you found the purfect hotel for you and your furry friend!"
+      puts "Goodbye."
+    end
 
   
   

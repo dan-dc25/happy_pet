@@ -10,7 +10,7 @@ class Scraper
     doc = Nokogiri::HTML(html)
     
     doc.css(".result.clearfix.hotel-result").each_with_index do |hotel, index|
-     name = hotel.css("a").text
+     name = hotel.css("a")[0].text
      info = hotel.css("p")[0].text
      price = doc.css(".price")[index].text.gsub("As Low As", "").split
      Hotel.new(name, info, price)
