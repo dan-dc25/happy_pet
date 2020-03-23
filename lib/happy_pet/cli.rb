@@ -41,9 +41,10 @@ class HappyPet::CLI
   end
   
   def display_hotels
-    Hotel.all.each_with_index do |hotel, index|
-      puts "#{index}- #{hotel}."
-  end
+    Hotel.all[0..10].each_with_index do |hotel, index|
+      binding.pry
+      puts "#{index+1}- #{hotel.name}."
+    end
   end
   
   def restaurants
