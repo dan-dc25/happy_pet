@@ -10,8 +10,8 @@ class HappyPet::CLI
     puts ""
     make_a_selection
     puts "Would you like more information in any of the hotels? Y/N"
-    puts more_info
-    exit
+    more_info
+    make_a_selection
   end
     
   def make_a_selection
@@ -63,29 +63,47 @@ class HappyPet::CLI
   
   def display_restaurants
     Restaurant.all.each_with_index do |restaurant, index|
-      puts "#{index}- #{restaurant}"
+      puts "#{index +1} - #{restaurant.name}."
+      puts "#{restaurant.info}"
     end
   end
   
   def more_info
     input = nil
     input = gets.chomp.downcase
-      Hotel.all.each_with_index do |hotel, index|
-        if input == y
-          puts "#{index +1} - #{hotel.price}."
-          puts "#{info}."
-        elsif input == n
-          puts "Type exit to leave the program."
+        if input == "y"
+          Hotel.all.each_with_index do |hotel, index|
+            puts "Please enter number 1 to see more or 2 to exit."
+            input = gets.chomp.downcase
+            return if input != "1"
+              puts "Here's the common price at the hotel number #{index + 1}"
+              puts "#{hotel.price}."
+              puts "Here's more information about hotel number #{index + 1}"
+              puts "#{hotel.info}"
+              puts "Type enter to go back to the main menu."
+              exit = gets.chomp
+          end
+        elsif input == "n"
+          puts "Type enter to go back to the main menu."
+          exit = gets.chomp
+          
         end
-      end
-      exit
     end
     
     def exit
       puts "We hate to see you go."
-      puts "But we hope you had a great time"
-      puts "And we hope you found the purfect hotel for you and your furry friend!"
-      puts "Goodbye."
+      puts "Were we able to help you find the 'purfect' location for you and your furry pet?"
+      puts "Enter YES or NO"
+      input = nil 
+      input = gets.chomp.downcase
+      if input == "yes"
+        puts "We are very happy to hear it."
+        puts "Come back anytime!!!"
+      elsif input == "no"
+        puts "We are sorry we could not be of any help."
+        puts "Have a great day!"
+        puts "Goodbye."
+      end
     end
 
   
