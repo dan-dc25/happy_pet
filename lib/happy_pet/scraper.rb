@@ -22,7 +22,7 @@ class Scraper
     html = open(url)
     doc = Nokogiri::HTML(html)
     doc.css(".result.clearfix.restaurant-result").each do |restaurant|
-      name = restaurant.css("a").text
+      name = restaurant.css("a")[0].text
       info = restaurant.css("p")[0].text
       Restaurant.new(name, info)
     end

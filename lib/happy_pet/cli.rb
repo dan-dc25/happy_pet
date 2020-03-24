@@ -5,29 +5,36 @@ require './lib/environment'
 class HappyPet::CLI
   
     def call
-    puts ""
-    puts "Welcome to Happy Pet! We will show you a list of pup friendly destinations."
-    puts ""
-    make_a_selection
-    puts "Would you like more information in any of the hotels? Y/N"
-    more_info
-    make_a_selection
+    menu
   end
     
+    def menu
+      puts"Welcome to Happy Pet!"
+      puts "Would you like to look at Hotels and Restaurants?"
+      puts "Or would you like to leave?"
+      puts "Please enter 1 to look at Hotels and Restaurants and 2 to leave:"
+      input = nil
+      input = gets.chomp
+        if input == "1"
+          make_a_selection
+        elsif input == "2"
+          exit
+        end
+      end
+          
   def make_a_selection
-    puts " "
-    puts "Would you like to look at hotels or restaurants?"
-    puts "Enter 1 for Hotels or 2 for Restaurants."
+    puts "Enter H for Hotels or R for Restaurants."
     input = nil
-    input = gets.chomp
-    if input == "1"
+    input = gets.chomp.downcase
+    if input == "h"
        hotels
-    elsif input == "2" 
-      puts restaurants
+    elsif input == "r" 
+       restaurants
     else 
-      puts "Please enter 1 for Hotels or 2 for Restaurants."
+      puts "Press enter to exit"
+      input = gets.chomp
+      menu
     end
-  
   end
     
     
@@ -47,10 +54,20 @@ class HappyPet::CLI
     Hotel.all.each_with_index do |hotel, index|
       puts "#{index +1} - #{hotel.name}."
     end
+    puts "Would you like more information about the hotels? Y/N"
+    input = nil
+    input = gets.chomp.downcase
+        if input == "y"
+         more_info
+        elsif input == "n"
+          puts "Type enter to go back to the main menu."
+          exit = gets.chomp
+          menu
+        end
   end
   
   def restaurants
-     puts "Please enter the city you are traveling to."
+    puts "Please enter the city you are traveling to."
     city = nil
     city = gets.chomp.downcase.split.join("-")
     puts "Please, enter the state"
@@ -64,29 +81,31 @@ class HappyPet::CLI
   def display_restaurants
     Restaurant.all.each_with_index do |restaurant, index|
       puts "#{index +1} - #{restaurant.name}."
-      puts "#{restaurant.info}"
     end
-  end
-  
-  def more_info
+      puts "Would you like more information about the restaurants? Y/N"
     input = nil
     input = gets.chomp.downcase
         if input == "y"
-          Hotel.all.each_with_index do |hotel, index|
-            puts "Please enter number 1 to see more or 2 to exit."
-            input = gets.chomp.downcase
-            return if input != "1"
-              puts "Here's the common price at the hotel number #{index + 1}"
-              puts "#{hotel.price}."
-              puts "Here's more information about hotel number #{index + 1}"
-              puts "#{hotel.info}"
-              puts "Type enter to go back to the main menu."
-              exit = gets.chomp
-          end
+         puts "#{restaurant.info}"
         elsif input == "n"
           puts "Type enter to go back to the main menu."
           exit = gets.chomp
-          
+          menu
+        end
+  end
+  
+  def more_info
+    Hotel.all.each_with_index do |hotel, index|
+      puts "Please enter number 1 to see more or 2 to exit."
+      input = gets.chomp.downcase       
+        return if input != "1"
+          puts "Here's the common price at the hotel number #{index + 1}"
+          puts "#{hotel.price}."
+          puts "Here's more information about hotel number #{index + 1}"
+          puts "#{hotel.info}"
+          puts "Type enter to go back to the main menu."
+          exit = gets.chomp
+          menu
         end
     end
     
