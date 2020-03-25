@@ -11,7 +11,6 @@ class HappyPet::CLI
     def menu
       puts"Welcome to Happy Pet!"
       puts "Would you like to look at Hotels and Restaurants?"
-      puts "Or would you like to leave?"
       puts "Please enter 1 to look at Hotels and Restaurants and 2 to leave:"
       input = nil
       input = gets.chomp
@@ -33,7 +32,7 @@ class HappyPet::CLI
     else
       puts "Press enter to exit"
       input = gets.chomp
-      menu
+      exit
     end
   end
 
@@ -102,7 +101,7 @@ class HappyPet::CLI
           puts "Here's the common price at the hotel number #{index + 1}"
           puts "#{hotel.price}."
           puts "Here's the address for hotel number #{index + 1}"
-          puts "#{hotel.info}"
+          puts "#{hotel.info.gsub!(/\s+/, ' ')}"
         end
           puts "Type enter to go back to the main menu."
           exit = gets.chomp
@@ -115,7 +114,7 @@ class HappyPet::CLI
           return if input != "1"
           Restaurant.all.each_with_index do |restaurant, index|
             puts "Here's the phone number and address for restaurant number #{index + 1}"
-            puts "#{restaurant.info}."
+            puts "#{restaurant.info.gsub!(/\s+/, ' ')}."
           end
             puts "Type enter to go back to the main menu."
             exit = gets.chomp

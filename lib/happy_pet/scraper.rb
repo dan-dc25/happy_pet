@@ -3,12 +3,12 @@ require 'nokogiri'
 require 'open-uri'
 
 class Scraper
-  
+
   def self.get_page(state, city)
-    url = "https://www.gopetfriendly.com/Hotels/#{state}/#{city}/1.aspx"    
+    url = "https://www.gopetfriendly.com/Hotels/#{state}/#{city}/1.aspx"
     html = open(url)
     doc = Nokogiri::HTML(html)
-    
+
     doc.css(".result.clearfix.hotel-result").each_with_index do |hotel, index|
      name = hotel.css("a")[0].text
      info = hotel.css("p")[0].text
@@ -16,7 +16,7 @@ class Scraper
      Hotel.new(name, info, price)
     end
   end
-  
+
   def self.get_restaurant(state, city)
     url = "https://www.gopetfriendly.com/Restaurants/#{state}/#{city}/1.aspx"
     html = open(url)
@@ -27,6 +27,5 @@ class Scraper
       Restaurant.new(name, info)
     end
   end
-  
-end
 
+end
