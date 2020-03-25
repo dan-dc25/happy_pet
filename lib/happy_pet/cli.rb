@@ -3,11 +3,11 @@ require './lib/environment'
 
 
 class HappyPet::CLI
-  
+
     def call
-    menu
-  end
-    
+      menu
+    end
+
     def menu
       puts"Welcome to Happy Pet!"
       puts "Would you like to look at Hotels and Restaurants?"
@@ -21,23 +21,23 @@ class HappyPet::CLI
           exit
         end
       end
-          
+
   def make_a_selection
     puts "Enter H for Hotels or R for Restaurants."
     input = nil
     input = gets.chomp.downcase
     if input == "h"
        hotels
-    elsif input == "r" 
+    elsif input == "r"
        restaurants
-    else 
+    else
       puts "Press enter to exit"
       input = gets.chomp
       menu
     end
   end
-    
-    
+
+
   def hotels
     puts "Please enter the city you are traveling to."
     city = nil
@@ -49,7 +49,7 @@ class HappyPet::CLI
     Scraper.get_page(state, city)
     display_hotels
   end
-  
+
   def display_hotels
     Hotel.all.each_with_index do |hotel, index|
       puts "#{index +1} - #{hotel.name}."
@@ -58,14 +58,14 @@ class HappyPet::CLI
     input = nil
     input = gets.chomp.downcase
         if input == "y"
-         more_info
+         more_info_hotel
         elsif input == "n"
           puts "Type enter to go back to the main menu."
           exit = gets.chomp
           menu
         end
   end
-  
+
   def restaurants
     puts "Please enter the city you are traveling to."
     city = nil
@@ -77,7 +77,7 @@ class HappyPet::CLI
     Scraper.get_restaurant(state, city)
     display_restaurants
   end
-  
+
   def display_restaurants
     Restaurant.all.each_with_index do |restaurant, index|
       puts "#{index +1} - #{restaurant.name}."
@@ -86,34 +86,47 @@ class HappyPet::CLI
     input = nil
     input = gets.chomp.downcase
         if input == "y"
-         puts "#{restaurant.info}"
+          more_info_restaurant
         elsif input == "n"
           puts "Type enter to go back to the main menu."
           exit = gets.chomp
           menu
         end
   end
-  
-  def more_info
-    Hotel.all.each_with_index do |hotel, index|
+
+  def more_info_hotel
       puts "Please enter number 1 to see more or 2 to exit."
-      input = gets.chomp.downcase       
+      input = gets.chomp.downcase
         return if input != "1"
+        Hotel.all.each_with_index do |hotel, index|
           puts "Here's the common price at the hotel number #{index + 1}"
           puts "#{hotel.price}."
-          puts "Here's more information about hotel number #{index + 1}"
+          puts "Here's the address for hotel number #{index + 1}"
           puts "#{hotel.info}"
+        end
           puts "Type enter to go back to the main menu."
           exit = gets.chomp
           menu
-        end
     end
-    
+
+    def more_info_restaurant
+        puts "Please enter number 1 to see more or 2 to exit."
+        input = gets.chomp.downcase
+          return if input != "1"
+          Restaurant.all.each_with_index do |restaurant, index|
+            puts "Here's the phone number and address for restaurant number #{index + 1}"
+            puts "#{restaurant.info}."
+          end
+            puts "Type enter to go back to the main menu."
+            exit = gets.chomp
+            menu
+      end
+
     def exit
       puts "We hate to see you go."
       puts "Were we able to help you find the 'purfect' location for you and your furry pet?"
       puts "Enter YES or NO"
-      input = nil 
+      input = nil
       input = gets.chomp.downcase
       if input == "yes"
         puts "We are very happy to hear it."
@@ -125,6 +138,6 @@ class HappyPet::CLI
       end
     end
 
-  
-  
+
+
 end
