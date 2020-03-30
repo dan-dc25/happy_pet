@@ -86,6 +86,7 @@ class HappyPet::CLI
             puts "Here's the address for hotel number #{index + 1}"
             puts "#{hotel.info.gsub!(/\s+/, ' ')}"
           end
+          menu
         elsif input == "n"
           puts "Taking you back to the main menu."
           menu
@@ -106,6 +107,7 @@ class HappyPet::CLI
               puts "Here's the phone number and address for restaurant number #{index + 1}"
               puts "#{restaurant.info.gsub!(/\s+/, ' ')}."
             end
+            menu
           elsif input == "n"
             puts "Taking you back to the main menu."
             menu
