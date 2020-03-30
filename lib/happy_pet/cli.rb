@@ -12,47 +12,61 @@ class HappyPet::CLI
       puts"Welcome to Happy Pet!"
       puts "Would you like to look at Hotels and Restaurants?"
       puts "Please enter 1 to look at Hotels and Restaurants and 2 to leave:"
-      input = nil
       input = gets.chomp
         if input == "1"
           make_a_selection
         elsif input == "2"
           exit
+        elsif input == "3"
+          puts "Press enter to exit"
+          input = gets.chomp.downcase
+          exit
+        else
+          puts "Invalid input."
+          menu
         end
       end
 
   def make_a_selection
     puts "Enter H for Hotels or R for Restaurants."
-    input = nil
     input = gets.chomp.downcase
     if input == "h"
        hotels
     elsif input == "r"
        restaurants
+     elsif input == "q"
+       puts "Press enter to exit"
+       input = gets.chomp
+       exit
     else
-      puts "Press enter to exit"
-      input = gets.chomp
-      exit
+      puts "Invalid input."
+      make_a_selection
     end
   end
 
 
   def hotels
+    city = get_city
+    state = get_state
+    puts "Showing you hotels in #{city}, #{state}..."
+    Scraper.get_page(state, city)
+    display_hotels
+  end
+
+  def get_city
     puts "Please enter the city you are traveling to."
-    city = nil
-    city = gets.chomp.downcase.split.join("-")
+    gets.chomp.downcase.split.join("-")
+  end
+
+  def get_state
     puts "Please, enter the state"
-    state = nil
     state = gets.chomp.downcase.split.join("-")
-      if state.length <= 2
+      until state.length > 2
         puts "Please enter the full state name. I.e 'Florida'."
         puts "Please enter the state you are traveling to."
         state = gets.chomp.downcase.split.join("-")
-      else
-        puts "Showing you hotels in #{city}, #{state}..."
       end
-    Scraper.get_page(state, city)
-    display_hotels
+      state
   end
 
   def display_hotels
@@ -72,19 +86,9 @@ class HappyPet::CLI
   end
 
   def restaurants
-    puts "Please enter the city you are traveling to."
-    city = nil
-    city = gets.chomp.downcase.split.join("-")
-    puts "Please, enter the state"
-    state = nil
-    state = gets.chomp.downcase.split.join("-")
-    if state.length <= 2
-      puts "Please enter the full state name. I.e 'Florida'."
-      puts "Please enter the state you are traveling to."
-      state = gets.chomp.downcase.split.join("-")
-    else
-      puts "Showing you hotels in #{city}, #{state}..."
-    end
+    city = get_city
+    state = get_state
+    puts "Showing you hotels in #{city}, #{state}..."
     Scraper.get_restaurant(state, city)
     display_restaurants
   end
@@ -94,7 +98,6 @@ class HappyPet::CLI
       puts "#{index +1} - #{restaurant.name}."
     end
       puts "Would you like more information about the restaurants? Y/N"
-    input = nil
     input = gets.chomp.downcase
         if input == "y"
           more_info_restaurant
@@ -110,8 +113,6 @@ class HappyPet::CLI
       input = gets.chomp.downcase
         return if input != "1"
         Hotel.all.each_with_index do |hotel, index|
-          puts "Here's the common price at the hotel number #{index + 1}"
-          puts "#{hotel.price}."
           puts "Here's the address for hotel number #{index + 1}"
           puts "#{hotel.info.gsub!(/\s+/, ' ')}"
         end
