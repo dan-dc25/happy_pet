@@ -38,11 +38,11 @@ class HappyPet::CLI
   def get_city
     puts "Please enter the city you are traveling to."
     city = gets.chomp.downcase.split.join("-")
-    if city.empty?
-      get_city
-    else
-    city
+    until city.length > 3
+      puts "Please, enter a valid city name."
+      city = gets.chomp.downcase.split.join("-")
     end
+    city
   end
 
   def get_state
@@ -88,11 +88,10 @@ class HappyPet::CLI
           end
         elsif input == "n"
           puts "Taking you back to the main menu."
-          menu
         elsif input == "q"
-          puts "Invalid input."
-          more_info_hotel
+          puts "Taking you back to the main menu."
         else
+          puts "Invalid input."
           more_info_hotel
         end
         menu
@@ -107,11 +106,11 @@ class HappyPet::CLI
               puts "#{restaurant.info.gsub!(/\s+/, ' ')}."
             end
           elsif input == "n"
-            exit
+            puts "Taking you back to the main menu."
           elsif input == "q"
-            puts "Invalid input."
-            more_info_restaurant
+            puts "Taking you back to the main menu."
           else
+            puts "Invalid input."
             more_info_restaurant
           end
           menu
