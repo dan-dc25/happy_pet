@@ -5,45 +5,27 @@ require './lib/environment'
 class HappyPet::CLI
 
     def call
+      puts"Welcome to Happy Pet!"
+      puts "We will show you pet friendly Hotels and Restaurants."
       menu
     end
 
     def menu
-      puts"Welcome to Happy Pet!"
-      puts "Would you like to look at Hotels and Restaurants?"
-      puts "Please enter 1 to look at Hotels and Restaurants and 2 to leave:"
+      puts "Please enter 1 for Hotels and 2 for Restaurants:"
+      puts "Or enter 3 to exit:"
       input = gets.chomp
         if input == "1"
-          make_a_selection
+          hotels
         elsif input == "2"
-          exit
+          restaurants
         elsif input == "3"
-          puts "Press enter to exit"
-          input = gets.chomp.downcase
+          puts "We hate to see you go."
           exit
         else
           puts "Invalid input."
           menu
         end
       end
-
-  def make_a_selection
-    puts "Enter H for Hotels or R for Restaurants."
-    input = gets.chomp.downcase
-    if input == "h"
-       hotels
-    elsif input == "r"
-       restaurants
-     elsif input == "q"
-       puts "Press enter to exit"
-       input = gets.chomp
-       exit
-    else
-      puts "Invalid input."
-      make_a_selection
-    end
-  end
-
 
   def hotels
     city = get_city
@@ -55,7 +37,12 @@ class HappyPet::CLI
 
   def get_city
     puts "Please enter the city you are traveling to."
-    gets.chomp.downcase.split.join("-")
+    city = gets.chomp.downcase.split.join("-")
+    if city.empty?
+      get_city
+    else
+    city
+    end
   end
 
   def get_state
@@ -73,22 +60,13 @@ class HappyPet::CLI
     Hotel.all.each_with_index do |hotel, index|
       puts "#{index +1} - #{hotel.name}."
     end
-    puts "Would you like more information about the hotels? Y/N"
-    input = nil
-    input = gets.chomp.downcase
-        if input == "y"
-         more_info_hotel
-        elsif input == "n"
-          puts "Type enter to go back to the main menu."
-          exit = gets.chomp
-          menu
-        end
-  end
+      more_info_hotel
+    end
 
   def restaurants
     city = get_city
     state = get_state
-    puts "Showing you hotels in #{city}, #{state}..."
+    puts "Showing you restaurants in #{city}, #{state}..."
     Scraper.get_restaurant(state, city)
     display_restaurants
   end
@@ -97,59 +75,53 @@ class HappyPet::CLI
     Restaurant.all.each_with_index do |restaurant, index|
       puts "#{index +1} - #{restaurant.name}."
     end
-      puts "Would you like more information about the restaurants? Y/N"
-    input = gets.chomp.downcase
-        if input == "y"
-          more_info_restaurant
-        elsif input == "n"
-          puts "Type enter to go back to the main menu."
-          exit = gets.chomp
-          menu
-        end
+    more_info_restaurant
   end
 
   def more_info_hotel
-      puts "Please enter number 1 to see more or 2 to exit."
-      input = gets.chomp.downcase
-        return if input != "1"
-        Hotel.all.each_with_index do |hotel, index|
-          puts "Here's the address for hotel number #{index + 1}"
-          puts "#{hotel.info.gsub!(/\s+/, ' ')}"
-        end
-          puts "Type enter to go back to the main menu."
-          exit = gets.chomp
+    puts "Would you like more information about the hotels? Y/N"
+    input = gets.chomp.downcase
+        if input == "y"
+          Hotel.all.each_with_index do |hotel, index|
+            puts "Here's the address for hotel number #{index + 1}"
+            puts "#{hotel.info.gsub!(/\s+/, ' ')}"
+          end
+        elsif input == "n"
+          puts "Taking you back to the main menu."
           menu
-    end
+        elsif input == "q"
+          puts "Invalid input."
+          more_info_hotel
+        else
+          more_info_hotel
+        end
+        menu
+  end
 
     def more_info_restaurant
-        puts "Please enter number 1 to see more or 2 to exit."
-        input = gets.chomp.downcase
-          return if input != "1"
-          Restaurant.all.each_with_index do |restaurant, index|
-            puts "Here's the phone number and address for restaurant number #{index + 1}"
-            puts "#{restaurant.info.gsub!(/\s+/, ' ')}."
+      puts "Would you like more information about the Restaurants? Y/N"
+      input = gets.chomp.downcase
+          if input == "y"
+            Restaurant.all.each_with_index do |restaurant, index|
+              puts "Here's the phone number and address for restaurant number #{index + 1}"
+              puts "#{restaurant.info.gsub!(/\s+/, ' ')}."
+            end
+          elsif input == "n"
+            exit
+          elsif input == "q"
+            puts "Invalid input."
+            more_info_restaurant
+          else
+            more_info_restaurant
           end
-            puts "Type enter to go back to the main menu."
-            exit = gets.chomp
-            menu
+          menu
       end
 
     def exit
-      puts "We hate to see you go."
-      puts "Were we able to help you find the 'purfect' location for you and your furry pet?"
-      puts "Enter YES or NO"
-      input = nil
-      input = gets.chomp.downcase
-      if input == "yes"
-        puts "We are very happy to hear it."
-        puts "Come back anytime!!!"
-      elsif input == "no"
-        puts "We are sorry we could not be of any help."
-        puts "Have a great day!"
-        puts "Goodbye."
-      end
+      puts "Thank you for stopping by."
+      puts "We hope we were able to find the 'purfect' destination for you and your furry friend."
+      puts "Come back anytime!"
+      puts "Goodbye!"
     end
-
-
 
 end
