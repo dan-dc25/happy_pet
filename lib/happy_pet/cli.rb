@@ -88,13 +88,14 @@ class HappyPet::CLI
           end
         elsif input == "n"
           puts "Taking you back to the main menu."
+          menu
         elsif input == "q"
           puts "Taking you back to the main menu."
+          menu
         else
           puts "Invalid input."
           more_info_hotel
         end
-        menu
   end
 
     def more_info_restaurant
@@ -107,13 +108,14 @@ class HappyPet::CLI
             end
           elsif input == "n"
             puts "Taking you back to the main menu."
+            menu
           elsif input == "q"
             puts "Taking you back to the main menu."
+            menu
           else
             puts "Invalid input."
             more_info_restaurant
           end
-          menu
       end
 
     def exit
